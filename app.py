@@ -16,3 +16,4 @@ if __name__ == "__main__":
     hello
     helloooo
     보이니
+    아무거나
