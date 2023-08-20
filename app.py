@@ -13,8 +13,8 @@ if __name__ == "__main__":
 
 
     #hi
-    hello
-    helloooo
-    보이니
-    아무거나
-    현종바보
+    #hello
+    #helloooo
+    #보이니
+    #아무거나
+    #현종바보
