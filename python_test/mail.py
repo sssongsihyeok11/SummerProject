@@ -18,6 +18,9 @@ def show_list(id):
     sql = "SELECT * FROM mail_data WHERE Receiver_Address LIKE %s"
     cur.execute(sql, (id,))
     result = cur.fetchall()
+
+    cur.close()
+    
     return result
 
 print(show_list('ssongsh98@naver.com'))
@@ -34,6 +37,8 @@ def search_contents(str):
        if (str) in content:
            list.append([result[0],result[1],result[2]])
     
+    cur.close()
+
     return list
 
 #검색 정렬 함수
@@ -41,6 +46,20 @@ def search_sort(str):
     search_list = search_contents(str)
     result = sorted(search_list,key=lambda x: x[2])
     return result
+
+#sql 이용 검색 정렬 함수 (맞나싶네요ㅋㅋ)
+def search_sort(str):
+    
+    cur = mydb.cursor()
+    sql = "SELECT * FROM e_mail_data.mail_data WHERE Contents LIKE %s"
+    cur.excute(sql, ('%' + str + '%',))
+
+    result = cur.fetchall()
+    
+    cur.close()
+
+    return result
+
 
 #print(search_sort("인하대"))
 
