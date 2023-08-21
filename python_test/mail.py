@@ -32,7 +32,22 @@ def search_sort(str):
     result = sorted(search_list,key=lambda x: x[2])
     return result
 
-print(search_sort("인하대"))
+#print(search_sort("인하대"))
+
+#검색 리스트 제거 함수, num은 index
+def swap_elements(lst, index1, index2):
+    lst[index1], lst[index2] = lst[index2], lst[index1]
+
+def delete_search_list(str, num):
+    sorted_list = search_sort(str)
+    for x in range(len(sorted_list)):
+      if sorted_list[x][0] == num :
+          swap_elements(sorted_list, 0, x)
+          sorted_list.pop(0)
+          break
+    return sorted_list
+
+print(delete_search_list("인하대", 5))
 # http protocol routing function
 #@app.route('/', methods = ['GET', 'POST'])
 #def index():
