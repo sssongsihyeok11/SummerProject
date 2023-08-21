@@ -12,6 +12,16 @@ mydb = mysql.connector.connect(
 app = Flask(__name__)
 list=[]
 
+# mail list 함수
+def show_list(id):
+    cur = mydb.cursor()
+    sql = "SELECT * FROM mail_data WHERE Receiver_Address LIKE %s"
+    cur.execute(sql, (id,))
+    result = cur.fetchall()
+    return result
+
+print(show_list('ssongsh98@naver.com'))
+
 # 단어 search 함수
 def search_contents(str):
     
@@ -48,6 +58,9 @@ def delete_search_list(str, num):
     return sorted_list
 
 print(delete_search_list("인하대", 5))
+
+
+# 다수 제거 함수
 # http protocol routing function
 #@app.route('/', methods = ['GET', 'POST'])
 #def index():
