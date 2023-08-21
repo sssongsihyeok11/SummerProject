@@ -10,11 +10,11 @@ mydb = mysql.connector.connect(
 )
 
 app = Flask(__name__)
-
+list=[]
 
 # 단어 search 함수
 def search_contents(str):
-
+    
     cur = mydb.cursor()
     sql = "SELECT * FROM e_mail_data.mail_data"
     cur.execute(sql)
@@ -22,9 +22,29 @@ def search_contents(str):
     for result in cur.fetchall():
        content = result[2]
        if (str) in content:
-           print(result)
+           list.append([result[0],result[1],result[2]])
+    
+    return list
 
-search_contents("인하대")
+#검색 정렬 함수
+def search_sort(str):
+    search_list = search_contents(str)
+    result = sorted(search_list,key=lambda x: x[2])
+    return result
+
+print(search_sort("인하대"))
+# http protocol routing function
+#@app.route('/', methods = ['GET', 'POST'])
+#def index():
+#    if request.method == 'POST':
+#        keyword = request.form['keyword']
+#        if keyword:
+#            results = search_contents(keyword)
+#            return render_template('index.html', results=results, keyword=keyword)
+#        else:
+#            return "Please enter a keyword."
+
+#    return render_template('index.html')
 
 
 # 로그인 기본 코드
