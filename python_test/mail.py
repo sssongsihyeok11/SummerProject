@@ -79,14 +79,20 @@ def delete_search_list(str, num):
 print(delete_search_list("인하대", 5))
 
 
-# 다수 제거 함수
-def multi_delete(str, num):
+# 다수 제거 함수, 제거 갯수 최대 10개로 설정
+def multi_delete(str):
     sorted_list = search_sort(str)
     deleted_list = []
+    for i in range(10):
+        input(i)
+        deleted_list.append(i)
 
-    for x in sorted_list:
-        if x[0] != num:
-            deleted_list.append(x)
+    for x in range(len(sorted_list)):
+        for y in range(len(deleted_list)):
+          if sorted_list[x][0] == deleted_list[y]:
+             swap_elements(sorted_list, 0, x)
+             sorted_list.pop(0)
+          break
     
     return deleted_list
 
