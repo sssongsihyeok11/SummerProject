@@ -94,7 +94,7 @@ def multi_delete(str):
              sorted_list.pop(0)
           break
     
-    return want_to_delete_list
+    return sorted_list
 
 # http protocol routing function
 #@app.route('/', methods = ['GET', 'POST'])
