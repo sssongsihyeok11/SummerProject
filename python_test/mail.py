@@ -61,6 +61,16 @@ print(delete_search_list("인하대", 5))
 
 
 # 다수 제거 함수
+def multi_delete(str, num):
+    sorted_list = search_sort(str)
+    deleted_list = []
+
+    for x in sorted_list:
+        if x[0] != num:
+            deleted_list.append(x)
+    
+    return deleted_list
+
 # http protocol routing function
 #@app.route('/', methods = ['GET', 'POST'])
 #def index():
