@@ -82,19 +82,19 @@ print(delete_search_list("인하대", 5))
 # 다수 제거 함수, 제거 갯수 최대 10개로 설정
 def multi_delete(str):
     sorted_list = search_sort(str)
-    deleted_list = []
+    want_to_delete_list = []
     for i in range(10):
         input(i)
-        deleted_list.append(i)
+        want_to_delete_list.append(i)
 
     for x in range(len(sorted_list)):
-        for y in range(len(deleted_list)):
-          if sorted_list[x][0] == deleted_list[y]:
+        for y in range(len(want_to_delete_list)):
+          if sorted_list[x][0] == want_to_delete_list[y]:
              swap_elements(sorted_list, 0, x)
              sorted_list.pop(0)
           break
     
-    return deleted_list
+    return want_to_delete_list
 
 # http protocol routing function
 #@app.route('/', methods = ['GET', 'POST'])
