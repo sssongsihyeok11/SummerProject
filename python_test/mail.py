@@ -12,7 +12,7 @@ mydb = mysql.connector.connect(
 app = Flask(__name__)
 list=[]
 
-# mail list 함수
+# mail list 함수 -> render_template
 def show_list(id):
     cur = mydb.cursor()
     sql = "SELECT * FROM mail_data WHERE Receiver_Address LIKE %s"
@@ -26,7 +26,7 @@ def show_list(id):
 print(show_list('ssongsh98@naver.com'))
 
 
-#메일 축적 함수
+#메일 축적 함수 -> render_template, database
 def insert_mail_list(id):
     mail_list = show_list(id)
     sender_address= input ("sender_address: ")
@@ -37,7 +37,7 @@ def insert_mail_list(id):
     return mail_list
 
 
-# 단어 search 함수
+# 단어 search 함수 -> render_template
 def search_contents(str):
     
     cur = mydb.cursor()
@@ -75,7 +75,7 @@ def search_sort(str):
 
 #print(search_sort("인하대"))
 
-#검색 리스트 제거 함수, num은 index
+#검색 리스트 제거 함수, num은 index 
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
 
@@ -91,7 +91,7 @@ def delete_search_list(str, num):
 print(delete_search_list("인하대", 5))
 
 
-# 다수 제거 함수, 제거 갯수 최대 10개로 설정
+# 다수 제거 함수, 제거 갯수 최대 10개로 설정 ->render_template, database
 def multi_delete(str):
     sorted_list = search_sort(str)
     want_to_delete_list = []
