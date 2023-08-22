@@ -20,20 +20,22 @@ def hello_html():
 
 # mail list 함수 -> render_template
 def show_list(id):
-    cur = mydb.cursor()
-    sql = "SELECT * FROM mail_data WHERE Receiver_Address LIKE %s"
-    cur.execute(sql, (id,))
+    
+    sql = "SELECT * FROM mail_data WHERE Receiver_Address = %s"
+    cur = mydb.cursor(buffered=True)
+    cur.execute(sql,(id,))
     result = cur.fetchall()
 
     cur.close()
     
     return result
 
+
 # 로그인 기본 코드
 @app.route('/login')
 def login():
-    cur = mydb.cursor()
     sql = "SELECT * FROM e_mail_data.mail_participant"
+    cur = mydb.cursor(buffered=True)
     cur.execute(sql)
 
     email = request.args.get('email_address')
@@ -42,6 +44,7 @@ def login():
     for x in cur:
         if email == x[1] and passwd ==x[2]:
           mail_list = show_list(email)
+          print(mail_list)
           return render_template('index.html',mail_list=mail_list)
 
     cur.close()
