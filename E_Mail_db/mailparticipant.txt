@@ -1,0 +1,6 @@
+USE e_mail_data;
+
+CREATE TABLE mail_participant(
+    Number INT AUTO_INCREMENT PRIMARY KEY,
+    Address VARCHAR(255) NOT NULL,
+    Pwd VARCHAR(255) NOT NULL);
