@@ -41,8 +41,8 @@ def login():
    
     for x in cur:
         if email == x[1] and passwd ==x[2]:
-          e_mail_list = show_list(email)
-          return render_template('index.html',e_mail_list)
+          mail_list = show_list(email)
+          return render_template('index.html',mail_list)
 
     cur.close()
 
