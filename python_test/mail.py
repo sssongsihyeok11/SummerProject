@@ -57,11 +57,11 @@ def search_contents():
     cur = mydb.cursor()
     sql = "SELECT * FROM e_mail_data.mail_data"
     cur.execute(sql)
-    str = request.args.get('Content')
+    con = request.args.get('Content')
     for result in cur.fetchall():
-       content = result[2]
-       if (str) in content:
-           my_list.append([result[0],result[1],result[2]])
+       content = result[3]
+       if (con) in content:
+           my_list.append([result[1],result[3]])
     
     cur.close()
 
