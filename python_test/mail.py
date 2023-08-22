@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False # 한글 데이터 깨짐 방지
-list=[]
+
 
 @app.route('/')
 def hello_html():
@@ -50,6 +50,22 @@ def login():
     cur.close()
     return render_template('login.html')
 
+# 단어 search 함수 -> render_template
+@app.route('/search')
+def search_contents():
+    my_list=[]
+    cur = mydb.cursor()
+    sql = "SELECT * FROM e_mail_data.mail_data"
+    cur.execute(sql)
+    str = request.args.get('Content')
+    for result in cur.fetchall():
+       content = result[2]
+       if (str) in content:
+           my_list.append([result[0],result[1],result[2]])
+    
+    cur.close()
+
+    return render_template('search.html', search_list = my_list)
     
 #메일 축적 함수 -> render_template, database
 def insert_mail_list(id):
@@ -62,21 +78,7 @@ def insert_mail_list(id):
     return mail_list
 
 
-# 단어 search 함수 -> render_template
-def search_contents(str):
-    
-    cur = mydb.cursor()
-    sql = "SELECT * FROM e_mail_data.mail_data"
-    cur.execute(sql)
-    
-    for result in cur.fetchall():
-       content = result[2]
-       if (str) in content:
-           list.append([result[0],result[1],result[2]])
-    
-    cur.close()
 
-    return list
 
 # 검색 메일 목록 넘기기
 @app.route('/send_search_contents')
@@ -87,10 +89,10 @@ def send_search_contents(str):
 
 
 #검색 정렬 함수
-def search_sort(str):
-    search_list = search_contents(str)
-    result = sorted(search_list,key=lambda x: x[2])
-    return result
+#def search_sort(str):
+#    search_list = search_contents(str)
+#    result = sorted(search_list,key=lambda x: x[2])
+#    return result
 
 #sql 이용 검색 정렬 함수 (맞나싶네요ㅋㅋ)
 #def search_sort(str):
@@ -112,7 +114,7 @@ def search_sort(str):
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
 
-def delete_search_list(str, num):
+#def delete_search_list(str, num):
     sorted_list = search_sort(str)
     for x in range(len(sorted_list)):
       if sorted_list[x][0] == num :
@@ -121,11 +123,11 @@ def delete_search_list(str, num):
           break
     return sorted_list
 
-print(delete_search_list("인하대", 5))
+#print(delete_search_list("인하대", 5))
 
 
 # 다수 제거 함수, 제거 갯수 최대 10개로 설정 ->render_template, database
-def multi_delete(str):
+#def multi_delete(str):
     sorted_list = search_sort(str)
     want_to_delete_list = []
     for i in range(10):
@@ -145,7 +147,7 @@ def multi_delete(str):
     return sorted_list
 
 # 탄소배출량 계산 함수
-def carbon(num):
+#def carbon(num):
     carbon = num * 4
     print('약', carbon ,'g의 탄소배출을 막으셨어요!')
 
