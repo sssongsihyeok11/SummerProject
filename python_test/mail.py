@@ -10,22 +10,47 @@ mydb = mysql.connector.connect(
 )
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False # 한글 데이터 깨짐 방지
 list=[]
+
+@app.route('/')
+def hello_html():
+    return render_template('login.html')
+
 
 # mail list 함수 -> render_template
 def show_list(id):
-    cur = mydb.cursor()
-    sql = "SELECT * FROM mail_data WHERE Receiver_Address LIKE %s"
-    cur.execute(sql, (id,))
+    
+    sql = "SELECT * FROM mail_data WHERE Receiver_Address = %s"
+    cur = mydb.cursor(buffered=True)
+    cur.execute(sql,(id,))
     result = cur.fetchall()
 
     cur.close()
     
     return result
 
-print(show_list('ssongsh98@naver.com'))
 
+# 로그인 기본 코드
+@app.route('/login')
+def login():
+    sql = "SELECT * FROM e_mail_data.mail_participant"
+    cur = mydb.cursor(buffered=True)
+    cur.execute(sql)
 
+    email = request.args.get('email_address')
+    passwd = request.args.get('pass_word')
+   
+    for x in cur:
+        if email == x[1] and passwd ==x[2]:
+          mail_list = show_list(email)
+          print(mail_list)
+          return render_template('index.html',mail_list=mail_list)
+
+    cur.close()
+    return render_template('login.html')
+
+    
 #메일 축적 함수 -> render_template, database
 def insert_mail_list(id):
     mail_list = show_list(id)
@@ -52,6 +77,14 @@ def search_contents(str):
     cur.close()
 
     return list
+
+# 검색 메일 목록 넘기기
+@app.route('/send_search_contents')
+def send_search_contents(str):
+    send_search_list = search_contents(str)
+
+    return jsonify(send_search_list)
+
 
 #검색 정렬 함수
 def search_sort(str):
@@ -104,9 +137,18 @@ def multi_delete(str):
           if sorted_list[x][0] == want_to_delete_list[y]:
              swap_elements(sorted_list, 0, x)
              sorted_list.pop(0)
+
+             count = count + 1
           break
     
+    carbon(count)
     return sorted_list
+
+# 탄소배출량 계산 함수
+def carbon(num):
+    carbon = num * 4
+    print('약', carbon ,'g의 탄소배출을 막으셨어요!')
+
 
 # http protocol routing function
 #@app.route('/', methods = ['GET', 'POST'])
@@ -122,28 +164,10 @@ def multi_delete(str):
 #    return render_template('index.html')
 
 
-# 로그인 기본 코드
-@app.route('/login')
-def login():
-    cur = mydb.cursor()
-    sql = "SELECT * FROM e_mail_data.mail_participant"
-    cur.execute(sql)
 
-    email = request.args.get('email_address')
-    passwd = request.args.get('pass_word')
-   
-    for x in cur:
-        if email == x[1] and passwd ==x[2]:
-            return_data ={'auth': 'success'}
-            break
 
-    return jsonify(return_data)
 
-@app.route('/html_test')
-def hello_html():
-    return render_template('login.html')
 
 
 if __name__ =="__main__":
     app.run(host = "0.0.0.0", port='8080')
-
