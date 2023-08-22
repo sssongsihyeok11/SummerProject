@@ -50,14 +50,7 @@ def login():
     cur.close()
     return render_template('login.html')
 
-#메일 목록 넘기기
-@app.route('/send_mail_list')
-def send_mail_list(id):
-    list = show_list(id)
-
-    return jsonify(list)
     
-
 #메일 축적 함수 -> render_template, database
 def insert_mail_list(id):
     mail_list = show_list(id)
