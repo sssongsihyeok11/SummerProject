@@ -25,6 +25,18 @@ def show_list(id):
 
 print(show_list('ssongsh98@naver.com'))
 
+
+#메일 축적 함수
+def insert_mail_list(id):
+    mail_list = show_list(id)
+    sender_address= input ("sender_address: ")
+    receiver_address = input("receiver_address: ")
+    content = input("content: ")
+    mail_list.append([sender_address, receiver_address, content])
+
+    return mail_list
+
+
 # 단어 search 함수
 def search_contents(str):
     
