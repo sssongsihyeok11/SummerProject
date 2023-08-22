@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False # 한글 데이터 깨짐 방지
 list=[]
 
-@app.route('/html_test')
+@app.route('/')
 def hello_html():
     return render_template('login.html')
 
@@ -42,10 +42,10 @@ def login():
     for x in cur:
         if email == x[1] and passwd ==x[2]:
           mail_list = show_list(email)
-          return render_template('index.html',mail_list)
+          return render_template('index.html',mail_list=mail_list)
 
     cur.close()
-
+    return render_template('login.html')
 
 #메일 목록 넘기기
 @app.route('/send_mail_list')
