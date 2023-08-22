@@ -60,17 +60,17 @@ def search_sort(str):
     return result
 
 #sql 이용 검색 정렬 함수 (맞나싶네요ㅋㅋ)
-def search_sort(str):
+#def search_sort(str):
     
-    cur = mydb.cursor()
-    sql = "SELECT * FROM e_mail_data.mail_data WHERE Contents LIKE %s"
-    cur.excute(sql, ('%' + str + '%',))
+#    cur = mydb.cursor()
+#    sql = "SELECT * FROM e_mail_data.mail_data WHERE Contents LIKE %s"
+#    cur.excute(sql, ('%' + str + '%',))
 
-    result = cur.fetchall()
+#    result = cur.fetchall()
     
-    cur.close()
+#    cur.close()
 
-    return result
+#    return result
 
 
 #print(search_sort("인하대"))
@@ -125,15 +125,18 @@ def multi_delete(str):
 # 로그인 기본 코드
 @app.route('/login')
 def login():
-    username = request.args.get('user_name')
-    passwd = request.args.get('pass_word')
-    email = request.args.get('email_address')
-    print(username, passwd, email)
+    cur = mydb.cursor()
+    sql = "SELECT * FROM e_mail_data.mail_participant"
+    cur.execute(sql)
 
-    if username == 'dave':
-        return_data = {'auth': 'success'}
-    else :
-        return_data = {'auth': 'failed'}
+    email = request.args.get('email_address')
+    passwd = request.args.get('pass_word')
+   
+    for x in cur:
+        if email == x[1] & passwd ==x[2]:
+            return_data ={'auth': 'success'}
+            break
+
     return jsonify(return_data)
 
 @app.route('/html_test')
@@ -142,5 +145,5 @@ def hello_html():
 
 
 if __name__ =="__main__":
-    app.run(host = "0.0.0.0", port='8081')
+    app.run(host = "0.0.0.0", port='8080')
 
