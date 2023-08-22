@@ -133,7 +133,7 @@ def login():
     passwd = request.args.get('pass_word')
    
     for x in cur:
-        if email == x[1] & passwd ==x[2]:
+        if email == x[1] and passwd ==x[2]:
             return_data ={'auth': 'success'}
             break
 
