@@ -13,6 +13,11 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False # 한글 데이터 깨짐 방지
 list=[]
 
+@app.route('/html_test')
+def hello_html():
+    return render_template('login.html')
+
+
 # mail list 함수 -> render_template
 def show_list(id):
     cur = mydb.cursor()
@@ -24,7 +29,23 @@ def show_list(id):
     
     return result
 
-print(show_list('ssongsh98@naver.com'))
+# 로그인 기본 코드
+@app.route('/login')
+def login():
+    cur = mydb.cursor()
+    sql = "SELECT * FROM e_mail_data.mail_participant"
+    cur.execute(sql)
+
+    email = request.args.get('email_address')
+    passwd = request.args.get('pass_word')
+   
+    for x in cur:
+        if email == x[1] and passwd ==x[2]:
+          e_mail_list = show_list(email)
+          return render_template('index.html',e_mail_list)
+
+    cur.close()
+
 
 #메일 목록 넘기기
 @app.route('/send_mail_list')
@@ -147,26 +168,9 @@ def carbon(num):
 #    return render_template('index.html')
 
 
-# 로그인 기본 코드
-@app.route('/login')
-def login():
-    cur = mydb.cursor()
-    sql = "SELECT * FROM e_mail_data.mail_participant"
-    cur.execute(sql)
 
-    email = request.args.get('email_address')
-    passwd = request.args.get('pass_word')
-   
-    for x in cur:
-        if email == x[1] and passwd ==x[2]:
-            return_data ={'auth': 'success'}
-            break
 
-    return jsonify(return_data)
 
-@app.route('/html_test')
-def hello_html():
-    return render_template('login.html')
 
 
 if __name__ =="__main__":
