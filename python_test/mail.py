@@ -68,7 +68,7 @@ def search_contents():
     return render_template('search.html', search_list = sorted_list)
     
 #메일 축적 함수 -> render_template, database
-def insert_mail_list(id):
+#def insert_mail_list(id):
     mail_list = show_list(id)
     sender_address= input ("sender_address: ")
     receiver_address = input("receiver_address: ")
