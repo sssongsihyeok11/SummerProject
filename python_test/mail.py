@@ -19,6 +19,7 @@ def hello_html():
 
 
 # mail list 함수 -> render_template
+#@app.route()
 def show_list(id):
     
     sql = "SELECT * FROM mail_data WHERE Receiver_Address = %s"
@@ -29,7 +30,7 @@ def show_list(id):
     cur.close()
     
     return result
-
+#   return render_template('.html')
 
 # 로그인 기본 코드
 @app.route('/login')
@@ -57,11 +58,11 @@ def search_contents():
     cur = mydb.cursor()
     sql = "SELECT * FROM e_mail_data.mail_data"
     cur.execute(sql)
-    str = request.args.get('Content')
+    con = request.args.get('Content')
     for result in cur.fetchall():
-       content = result[2]
-       if (str) in content:
-           my_list.append([result[0],result[1],result[2]])
+       content = result[3]
+       if (con) in content:
+           my_list.append([result[1],result[3]])
     
     cur.close()
 
@@ -86,27 +87,30 @@ def send_search_contents(str):
     send_search_list = search_contents(str)
 
     return jsonify(send_search_list)
+#   return render_template('search_content.html', send_search_list = send_search_list)
+
 
 
 #검색 정렬 함수
+"""
+@app.route('/search_sort')
+def search_sort(str):
+
+    cur = mydb.cursor()
+    sql = "SELECT * FROM e_mail_data.mail_data WHERE Contents LIKE %s"
+    cur.excute(sql, ('%' + str + '%',))
+
+    result = cur.fetchall()
+
+    cur.close()
+
+    return render_template('search_sort.html', result = result)
+"""
+
 #def search_sort(str):
 #    search_list = search_contents(str)
 #    result = sorted(search_list,key=lambda x: x[2])
 #    return result
-
-#sql 이용 검색 정렬 함수 (맞나싶네요ㅋㅋ)
-#def search_sort(str):
-    
-#    cur = mydb.cursor()
-#    sql = "SELECT * FROM e_mail_data.mail_data WHERE Contents LIKE %s"
-#    cur.excute(sql, ('%' + str + '%',))
-
-#    result = cur.fetchall()
-    
-#    cur.close()
-
-#    return result
-
 
 #print(search_sort("인하대"))
 
@@ -147,7 +151,7 @@ def swap_elements(lst, index1, index2):
     return sorted_list
 
 # 탄소배출량 계산 함수
-#def carbon(num):
+def carbon(num):
     carbon = num * 4
     print('약', carbon ,'g의 탄소배출을 막으셨어요!')
 
