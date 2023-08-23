@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-    <body>
-        <form method ='get' action ='http://localhost:8080/search'>
-            <ul>
-                <p><input type ='text' name ='Content'><br /></p>
-                <input type = "submit" />
-                {% for mail in mail_list %}
-                    <li>Sender: {{ mail[1] }}</li>
-                    <li>Content: {{ mail[3] }}</li>
-                    <br>
-                    <p>Enter Content:</p>
-                   
-                {% endfor %}
-            </ul>
-        </form>
-    </body>
+  </head>
+  <body>
+    <form method="get" action="http://localhost:8080/search">
+      <ul>
+        <p><input type="text" name="Content" /><br /></p>
+        <input type="submit" />
+        {% for mail in mail_list %}
+        <li>Sender: {{ mail[1] }}</li>
+        <li>Content: {{ mail[3] }}</li>
+        <br />
+        <p>Enter Content:</p>
+
+        {% endfor %}
+      </ul>
+    </form>
+  </body>
 </html>

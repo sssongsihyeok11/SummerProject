@@ -6,13 +6,68 @@
     <title>checkbox</title>
   </head>
   <body>
-    <div class="container"><input type="checkbox" /> box1</div>
-    <br />
-    <div class="container"><input type="checkbox" /> box2</div>
-    <br />
-    <div class="container"><input type="checkbox" /> box3</div>
-    <br />
-    <div class="container"><input type="checkbox" /> box4</div>
-    <br />
+    <div class="container">
+      <button
+        type="button"
+        class="btn btn-primary"
+        onclick="doSave();"
+        onclick="alert('전체 메일이 선택되었습니다.')"
+        value="클릭"
+      >
+        선택하기
+      </button>
+      <br />
+      <label>
+        <input type="checkbox" id="checkall" onclick="checkAll();" />
+        전체선택
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" name="mails" value="1box" />
+        mail1
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" name="mails" value="2box" />
+        mail2
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" name="mails" value="3box" />
+        mail3
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" name="mails" value="4box" />
+        mail4
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" name="mails" value="5box" />
+        mail5
+      </label>
+      <br />
+    </div>
+    <script>
+      function doSave() {
+        let mails = document.getElementsByName('mails');
+        let checked_leng_items = [];
+
+        for (let i = 0; i < mails.length; i++) {
+          if (mails[i].checked) {
+            checked_leng_items.push(mails[i].value);
+          }
+        }
+
+        console.log(checked_leng_items);
+      }
+      function checkAll() {
+        let isChecked = document.getElementById('checkall').checked;
+        let chks = document.getElementsByName('mails');
+        for (let i = 0; i < chks.length; i++) {
+          chks[i].checked = isChecked;
+        }
+      }
+    </script>
   </body>
 </html>
