@@ -18,8 +18,7 @@ def hello_html():
     return render_template('login.html')
 
 
-# mail list 함수 -> render_template
-#@app.route()
+# mail list 함수 
 def show_list(id):
     
     sql = "SELECT * FROM mail_data WHERE Receiver_Address = %s"
@@ -30,7 +29,6 @@ def show_list(id):
     cur.close()
     
     return result
-#   return render_template('.html')
 
 # 로그인 기본 코드
 @app.route('/login')
