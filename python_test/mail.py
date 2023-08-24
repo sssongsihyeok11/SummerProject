@@ -60,23 +60,14 @@ def search_contents():
     for result in cur.fetchall():
        content = result[3]
        if (con) in content:
-           my_list.append([result[0],result[1],result[3],result[4]])
+           my_list.append([result[0],result[1],result[3]])
     
     cur.close()
-    sorted_list = sorted(my_list,key=lambda x:x[3])
+    sorted_list = sorted(my_list,key=lambda x:x[2])
     for x in range(len(sorted_list)):
        sorted_list[x][0]=x+1
 
     return render_template('search.html', search_list = sorted_list)
-
-def merge_list():
-   cur = mydb.cursor()
-   mer_list =[]
-   
-   sql = "SELECT * FROM e_mail_data.mail_data"
-   cur.execute(sql)
-   
-
 
 def search_contents_list():
     my_list=[]
@@ -87,10 +78,10 @@ def search_contents_list():
     for result in cur.fetchall():
        content = result[3]
        if (con) in content:
-           my_list.append([result[0],result[1],result[3],result[4]])
+           my_list.append([result[0],result[1],result[3]])
     
     cur.close()
-    sorted_list = sorted(my_list,key=lambda x:x[3])
+    sorted_list = sorted(my_list,key=lambda x:x[2])
     for x in range(len(sorted_list)):
        sorted_list[x][0]=x+1
 
@@ -154,3 +145,14 @@ def carbon():
 
 if __name__ =="__main__":
     app.run(host = "0.0.0.0", port='8080')
+
+def mail_merge():
+   cur = mydb.cursor()
+   sql = "SELECT * FROM e_mail_data.mail_data WHERE Title LIKE %s"
+   keyword = '%/(광고/)%'
+   cur.execute(sql, (keyword,))
+
+   selected_mails = cur.fetchall()
+   for list in selected_mails:
+        = []
+   merged_mail = (1, selected_mails[1], selected_mails[2], )
