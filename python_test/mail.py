@@ -31,7 +31,7 @@ def show_list(id):
     return result
 #asdf
 # 로그인 기본 코드
-@app.route('/login')
+@app.route('/login',methods =['GET','POST'])
 def login():
     sql = "SELECT * FROM e_mail_data.mail_participant"
     cur = mydb.cursor(buffered=True)
