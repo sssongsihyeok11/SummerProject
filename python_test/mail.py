@@ -29,7 +29,7 @@ def show_list(id):
     cur.close()
     
     return result
-
+#asdf
 # 로그인 기본 코드
 @app.route('/login')
 def login():
