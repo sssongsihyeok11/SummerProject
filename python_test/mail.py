@@ -67,11 +67,12 @@ def search_contents():
     sorted_list = sorted(my_list,key=lambda x:x[1])
     return render_template('search.html', search_list = sorted_list)
 
-#검색 리스트 제거 함수, num은 index 
+
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
 
-#def delete_search_list(str, num): (수정 필)
+#검색 리스트 내부에서 제거 함수, num은 index 
+def delete_search_list(str, num):
     sorted_list = search_sort(str)
     for x in range(len(sorted_list)):
       if sorted_list[x][0] == num :
@@ -101,11 +102,23 @@ def swap_elements(lst, index1, index2):
     carbon(count)
     return sorted_list
 
-# 탄소배출량 계산 함수
-def carbon(num):
-    carbon = num * 4
-    print('약', carbon ,'g의 탄소배출을 막으셨어요!')
 
+#메일 리스트 갯수 함수
+def cal_mail_list():
+   my_list=[]
+   cur =mydb.cursor()
+   sql = "SELECT * FROM e_mail_data.mail_data"
+   cur.execute(sql)
+   result = cur.fetchall()
+   for x in range(len(result)): 
+     my_list.append(result[x])
+
+   return len(my_list)
+
+# 탄소배출량 계산 함수
+def carbon():
+    value_of_mail = cal_mail_list()
+    return render_template('reward.html',canbon=value_of_mail)
 
 if __name__ =="__main__":
     app.run(host = "0.0.0.0", port='8080')
