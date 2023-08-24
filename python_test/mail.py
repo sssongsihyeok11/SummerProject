@@ -121,7 +121,24 @@ def specific_mail_merge():
    total_merge_list.append(['광고통합주소','메일탄소@*****.com','광고통합제목',con])
    insert_mail_data(total_merge_list[0][0],total_merge_list[0][1],total_merge_list[0][2],total_merge_list[0][3])
    return total_merge_list
-     
+
+def general_mail_merge():
+   cur = mydb.cursor()
+   
+   sql = "SELECT * FROM e_mail_data.mail_data"
+   cur.execute(sql)
+   result = cur.fetchall()
+   
+
+   for x in range(len(result)):
+      con =result[x][4]
+      for y in range(len(result)):   
+           if result[x][1]==result[y][1]:
+              con = result[y][3] + ' ' + result[y][4] + '-------------------------------------------------'
+      insert_mail_data(result[x][1],result[x][2],'병합메일',con)
+      con =''
+   cur.close()
+
 #검색 리스트 제거 함수, num은 index 
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
