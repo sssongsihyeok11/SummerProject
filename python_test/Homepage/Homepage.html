@@ -4,22 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>매일탄소</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="homepage_style.css" />
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <li>
-          <h1>매일탄소</h1>
-        </li>
         <div class="nav">
           <ul>
             <li>
               <strong>
-                <a
-                  href="file:///Users/ohhyunjong/Desktop/summer%20project/SummerProject/Html%20example/code.html"
-                  >HOME</a
-                >
+                <a href="#">HOME</a>
               </strong>
             </li>
             <li>
@@ -29,34 +23,25 @@
             </li>
             <li>
               <strong>
-                <a
-                  href="https://namu.wiki/w/%ED%8C%8C%EC%9D%B8%20%EB%8B%A4%EC%9D%B4%EB%8B%9D"
-                  >Reward</a
-                >
+                <a href="#">Reward</a>
               </strong>
             </li>
           </ul>
         </div>
       </div>
-      <div class="hero">
-        <h2>매일탄소</h2>
-        <p>
-          Subscribe Easy Youtube Channel to watch more videos,<br />
-          press the bell icon to get latest updates.
-        </p>
-        <br />
-        <p>Login</p>
-        <p>ID: <input type="text" name="email_address" /><br /></p>
-        <p>PW: <input type="text" name="pass_word" /><br /></p>
-        <button
-          type="button"
-          class="btn btn-primary"
-          onclick="alert('전체 메일이 선택되었습니다.')"
-          value="클릭"
-        >
-          로그인하기
-        </button>
-      </div>
+      <center>
+        <div class="login-wrapper">
+          <h2>Login</h2>
+          <form method="post" action="서버의 url" id="login-form">
+            <input type="text" name="userName" placeholder="Email" />
+            <input type="password" name="userPassword" placeholder="Password" />
+            <label for="remember-check">
+              <input type="checkbox" id="remember-check" /> 아이디 저장하기
+            </label>
+            <input type="submit" value="Login" />
+          </form>
+        </div>
+      </center>
     </div>
   </body>
 </html>
