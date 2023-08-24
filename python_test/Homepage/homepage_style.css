@@ -19,7 +19,8 @@
 .container .header {
   width: 80%;
   height: 80px;
-  margin: auto;
+  margin: auto left;
+  margin: auto right;
   text-align: right;
   display: flex;
   justify-content: space-between;
