@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form method="get" action="192.168.68.100:8080/login">
-      <center>
-        <p>Enter Name:</p>
-        <p><input type="text" name="email_address" /><br /></p>
-        <p><input type="text" name="pass_word" /><br /></p>
-        <input type="submit" />
-      </center>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Form</title>
+</head>
+<body>
+  <form method="get" action="http://localhost:8080/login">
+    <center>
+      <p>Enter Email Address:</p>
+      <p><input type="text" name="email_address" /><br /></p>
+      <p>Enter Password:</p>
+      <p><input type="password" name="pass_word" id="password-input" /><br /></p>
+      <input type="checkbox" id="show-password-checkbox"> Show Password
+      <br />
+      <input type="submit" />
+    </center>
+  </form>
+  <script>
+    const passwordInput = document.getElementById('password-input');
+    const showPasswordCheckbox = document.getElementById('show-password-checkbox');
+
+    showPasswordCheckbox.addEventListener('change', () => {
+      if (showPasswordCheckbox.checked) {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    });
+  </script>
+</body>
 </html>
