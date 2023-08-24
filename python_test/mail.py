@@ -115,7 +115,6 @@ def cal_mail_list():
 
    return len(my_list)
 
-print (cal_mail_list())
 # 탄소배출량 계산 함수
 def carbon():
     value_of_mail = cal_mail_list()
