@@ -60,14 +60,23 @@ def search_contents():
     for result in cur.fetchall():
        content = result[3]
        if (con) in content:
-           my_list.append([result[0],result[1],result[3]])
+           my_list.append([result[0],result[1],result[3],result[4]])
     
     cur.close()
-    sorted_list = sorted(my_list,key=lambda x:x[2])
+    sorted_list = sorted(my_list,key=lambda x:x[3])
     for x in range(len(sorted_list)):
        sorted_list[x][0]=x+1
 
     return render_template('search.html', search_list = sorted_list)
+
+def merge_list():
+   cur = mydb.cursor()
+   mer_list =[]
+   
+   sql = "SELECT * FROM e_mail_data.mail_data"
+   cur.execute(sql)
+   
+
 
 def search_contents_list():
     my_list=[]
@@ -78,10 +87,10 @@ def search_contents_list():
     for result in cur.fetchall():
        content = result[3]
        if (con) in content:
-           my_list.append([result[0],result[1],result[3]])
+           my_list.append([result[0],result[1],result[3],result[4]])
     
     cur.close()
-    sorted_list = sorted(my_list,key=lambda x:x[2])
+    sorted_list = sorted(my_list,key=lambda x:x[3])
     for x in range(len(sorted_list)):
        sorted_list[x][0]=x+1
 
