@@ -23,33 +23,32 @@
       </label>
       <br />
       <label>
-        <input type="checkbox" name="mails" value="1box" />
+        <input type="checkbox" name="mails" value={{search_list[0]}} />
         mail1
       </label>
       <br />
       <label>
-        <input type="checkbox" name="mails" value="2box" />
+        <input type="checkbox" name="mails" value={{search_list[1]}} />
         mail2
       </label>
       <br />
       <label>
-        <input type="checkbox" name="mails" value="3box" />
+        <input type="checkbox" name="mails" value={{search_list[2]}} />
         mail3
       </label>
       <br />
       <label>
-        <input type="checkbox" name="mails" value="4box" />
+        <input type="checkbox" name="mails" value={{search_list[3]}} />
         mail4
       </label>
       <br />
       <label>
-        <input type="checkbox" name="mails" value="5box" />
+        <input type="checkbox" name="mails" value={{search_list[4]}} />
         mail5
       </label>
       <br />
-      <button type="button" class="btn btn-primary">삭제하기</button>
+      <button type="button" class="btn btn-primary" >삭제하기</button>
     </div>
-
     <script>
       function doSave() {
         let mails = document.getElementsByName('mails');
