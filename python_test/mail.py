@@ -43,7 +43,6 @@ def login():
     for x in cur:
         if email == x[1] and passwd ==x[2]:
           mail_list = show_list(email)
-          print(mail_list)
           return render_template('index.html',mail_list=mail_list)
 
     cur.close()
@@ -61,46 +60,69 @@ def search_contents():
     for result in cur.fetchall():
        content = result[3]
        if (con) in content:
-           my_list.append([result[1],result[3]])
+           my_list.append([result[0],result[1],result[3]])
     
     cur.close()
-    sorted_list = sorted(my_list,key=lambda x:x[1])
+    sorted_list = sorted(my_list,key=lambda x:x[2])
+    for x in range(len(sorted_list)):
+       sorted_list[x][0]=x+1
+
     return render_template('search.html', search_list = sorted_list)
 
+def search_contents_list():
+    my_list=[]
+    cur = mydb.cursor()
+    sql = "SELECT * FROM e_mail_data.mail_data"
+    cur.execute(sql)
+    con = request.args.get('Content')
+    for result in cur.fetchall():
+       content = result[3]
+       if (con) in content:
+           my_list.append([result[0],result[1],result[3]])
+    
+    cur.close()
+    sorted_list = sorted(my_list,key=lambda x:x[2])
+    for x in range(len(sorted_list)):
+       sorted_list[x][0]=x+1
 
+    return sorted_list    
+
+
+#검색 리스트 제거 함수, num은 index 
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
 
-#검색 리스트 내부에서 제거 함수, num은 index 
-def delete_search_list(str, num):
-    sorted_list = search_sort(str)
-    for x in range(len(sorted_list)):
-      if sorted_list[x][0] == num :
-          swap_elements(sorted_list, 0, x)
-          sorted_list.pop(0)
-          break
-    return sorted_list
 
+def delete_search_list():
+   want_to_delete_list = request.args.get('checkbox')
+   cur = mydb.cursor()
+   sql = "Delete FROM e_mail_data.mail_data WHERE Number = '%d'"
+   list = search_contents_list()
+   for x in range(len(want_to_delete_list)):
+     for y in range(len(list)):
+        if y==want_to_delete_list[x]:
+           cur.execute(sql,(y,))
+    
 
 # 다수 제거 함수, 제거 갯수 최대 10개로 설정 ->render_template, database
-#def multi_delete(str): (수정 필)
-    sorted_list = search_sort(str)
-    want_to_delete_list = []
-    for i in range(10):
-        input(i)
-        want_to_delete_list.append(i)
+#def multi_delete(str):
+#    sorted_list = search_sort(str)
+#    want_to_delete_list = []
+#    for i in range(10):
+#        input(i)
+#        want_to_delete_list.append(i)
 
-    for x in range(len(sorted_list)):
-        for y in range(len(want_to_delete_list)):
-          if sorted_list[x][0] == want_to_delete_list[y]:
-             swap_elements(sorted_list, 0, x)
-             sorted_list.pop(0)
+#    for x in range(len(sorted_list)):
+#        for y in range(len(want_to_delete_list)):
+#          if sorted_list[x][0] == want_to_delete_list[y]:
+#             swap_elements(sorted_list, 0, x)
+#             sorted_list.pop(0)
 
-             count = count + 1
-          break
+#            count = count + 1
+#          break
     
-    carbon(count)
-    return sorted_list
+#    carbon(count)
+ #   return sorted_list
 
 
 #메일 리스트 갯수 함수
@@ -115,6 +137,7 @@ def cal_mail_list():
 
    return len(my_list)
 
+print (cal_mail_list())
 # 탄소배출량 계산 함수
 def carbon():
     value_of_mail = cal_mail_list()
