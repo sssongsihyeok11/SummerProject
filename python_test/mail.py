@@ -102,11 +102,24 @@ def delete_search_list(str, num):
     carbon(count)
     return sorted_list
 
-# 탄소배출량 계산 함수
-def carbon(num):
-    carbon = num * 4
-    print('약', carbon ,'g의 탄소배출을 막으셨어요!')
 
+#메일 리스트 갯수 함수
+def cal_mail_list():
+   my_list=[]
+   cur =mydb.cursor()
+   sql = "SELECT * FROM e_mail_data.mail_data"
+   cur.execute(sql)
+   result = cur.fetchall()
+   for x in range(len(result)): 
+     my_list.append(result[x])
+
+   return len(my_list)
+
+print (cal_mail_list())
+# 탄소배출량 계산 함수
+def carbon():
+    value_of_mail = cal_mail_list()
+    return render_template('reward.html',canbon=value_of_mail)
 
 if __name__ =="__main__":
     app.run(host = "0.0.0.0", port='8080')
