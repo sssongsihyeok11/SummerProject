@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import mysql.connector
-
+from werkzeug.security import generate_password_hash, check_password_hash
 # 사용할 database 주소
 mydb = mysql.connector.connect(
     host = "localhost", #192.168.68.100
@@ -29,16 +29,19 @@ def show_list(id):
     cur.close()
     
     return result
-#asdf
+
 # 로그인 기본 코드
 @app.route('/login',methods =['GET','POST'])
 def login():
+    if request.method =='POST':
+        email = request.args.get('email_address')
+        passwd = request.args.get('pass_word')
+    
     sql = "SELECT * FROM e_mail_data.mail_participant"
     cur = mydb.cursor(buffered=True)
     cur.execute(sql)
 
-    email = request.args.get('email_address')
-    passwd = request.args.get('pass_word')
+   
    
     for x in cur:
         if email == x[1] and passwd ==x[2]:
@@ -85,9 +88,8 @@ def search_contents_list():
     for x in range(len(sorted_list)):
        sorted_list[x][0]=x+1
 
-    return sorted_list    
+    return sorted_list
 
-#메일 추가
 def insert_mail_data(sender, receiver, title, content):
     cur = mydb.cursor()
     sql = "INSERT INTO mail_data (Sender_Address, Receiver_Address, Title, Content) VALUES (%s, %s, %s, %s)"
@@ -96,7 +98,7 @@ def insert_mail_data(sender, receiver, title, content):
     mydb.commit()
     cur.close()
 
-#광고 메일 merge함수
+
 def specific_mail_merge():
    cur = mydb.cursor()
    merge_list =[]
@@ -121,24 +123,32 @@ def specific_mail_merge():
    total_merge_list.append(['광고통합주소','메일탄소@*****.com','광고통합제목',con])
    insert_mail_data(total_merge_list[0][0],total_merge_list[0][1],total_merge_list[0][2],total_merge_list[0][3])
    return total_merge_list
+     
+
 
 def general_mail_merge():
-   cur = mydb.cursor()
-   
-   sql = "SELECT * FROM e_mail_data.mail_data"
-   cur.execute(sql)
-   result = cur.fetchall()
-   
+    cur = mydb.cursor()
+    merge_list = []
+    sql = "SELECT Sender_Address, Receiver_Address, Title, Content FROM mail_data"
+    cur.execute(sql)
+    result = cur.fetchall()
 
-   for x in range(len(result)):
-      con =result[x][4]
-      for y in range(len(result)):   
-           if result[x][1]==result[y][1]:
-              con = result[y][3] + ' ' + result[y][4] + '-------------------------------------------------'
-      insert_mail_data(result[x][1],result[x][2],'병합메일',con)
-      con =''
-   cur.close()
+    merged_results = {}  # Sender_Address를 키로 사용하여 결과를 묶음
 
+    for sender, receiver, title, content in result:
+        if sender in merged_results:
+            merged_results[sender]['Title_Content'] += f'{title} {content} -- '
+        else:
+            merged_results[sender] = {
+                'Receiver_Address': receiver,
+                'Title_Content': f'{title} {content} -- '
+            }
+
+    for sender, data in merged_results.items():
+        merge_list.append([sender, data['Receiver_Address'], '병합메일', data['Title_Content']])
+
+    return merge_list
+   
 #검색 리스트 제거 함수, num은 index 
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
@@ -196,4 +206,3 @@ def carbon():
 
 if __name__ =="__main__":
     app.run(host = "0.0.0.0", port='8080')
-
