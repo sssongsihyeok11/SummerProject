@@ -67,11 +67,12 @@ def search_contents():
     sorted_list = sorted(my_list,key=lambda x:x[1])
     return render_template('search.html', search_list = sorted_list)
 
-#검색 리스트 제거 함수, num은 index 
+
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
 
-#def delete_search_list(str, num): (수정 필)
+#검색 리스트 내부에서 제거 함수, num은 index 
+def delete_search_list(str, num):
     sorted_list = search_sort(str)
     for x in range(len(sorted_list)):
       if sorted_list[x][0] == num :
