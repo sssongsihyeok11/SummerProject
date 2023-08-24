@@ -87,7 +87,41 @@ def search_contents_list():
 
     return sorted_list    
 
+#메일 추가
+def insert_mail_data(sender, receiver, title, content):
+    cur = mydb.cursor()
+    sql = "INSERT INTO mail_data (Sender_Address, Receiver_Address, Title, Content) VALUES (%s, %s, %s, %s)"
+    val = (sender, receiver, title, content)
+    cur.execute(sql, val)
+    mydb.commit()
+    cur.close()
 
+#광고 메일 merge함수
+def specific_mail_merge():
+   cur = mydb.cursor()
+   merge_list =[]
+   total_merge_list=[]
+   con = ''
+   sql = "SELECT * FROM e_mail_data.mail_data WHERE Title LIKE %s"
+   keyword = '%' + '(광고)' + '%'
+   cur.execute(sql, (keyword,))
+
+   selected_mails = cur.fetchall()
+   for x in range(len(selected_mails)): 
+     merge_list.append(selected_mails[x])
+     merge_list.append('--------------------------------------------------')
+   for y in range(len(merge_list)):
+      con = merge_list[0][4]
+      if merge_list[y] =='--------------------------------------------------':
+         continue
+      else:
+         if y in range(len(merge_list)):
+            con+=merge_list[y][4]
+            
+   total_merge_list.append(['광고통합주소','메일탄소@*****.com','광고통합제목',con])
+   insert_mail_data(total_merge_list[0][0],total_merge_list[0][1],total_merge_list[0][2],total_merge_list[0][3])
+   return total_merge_list
+     
 #검색 리스트 제거 함수, num은 index 
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
@@ -146,13 +180,3 @@ def carbon():
 if __name__ =="__main__":
     app.run(host = "0.0.0.0", port='8080')
 
-def mail_merge():
-   cur = mydb.cursor()
-   sql = "SELECT * FROM e_mail_data.mail_data WHERE Title LIKE %s"
-   keyword = '%/(광고/)%'
-   cur.execute(sql, (keyword,))
-
-   selected_mails = cur.fetchall()
-   for list in selected_mails:
-        = []
-   merged_mail = (1, selected_mails[1], selected_mails[2], )
