@@ -66,55 +66,12 @@ def search_contents():
     cur.close()
     sorted_list = sorted(my_list,key=lambda x:x[1])
     return render_template('search.html', search_list = sorted_list)
-    
-#메일 축적 함수 -> render_template, database
-#def insert_mail_list(id):
-    mail_list = show_list(id)
-    sender_address= input ("sender_address: ")
-    receiver_address = input("receiver_address: ")
-    content = input("content: ")
-    mail_list.append([sender_address, receiver_address, content])
-
-    return mail_list
-
-
-
-
-# 검색 메일 목록 넘기기
-@app.route('/send_search_contents')
-def send_search_contents(str):
-    send_search_list = search_contents(str)
-
-    return jsonify(send_search_list)
-#   return render_template('search_content.html', send_search_list = send_search_list)
-
-
-
-#검색 정렬 함수
-"""
-@app.route('/search_sort')
-def search_sort(str):
-
-    cur = mydb.cursor()
-    sql = "SELECT * FROM e_mail_data.mail_data WHERE Contents LIKE %s"
-    cur.excute(sql, ('%' + str + '%',))
-
-    result = cur.fetchall()
-
-    cur.close()
-
-    return render_template('search_sort.html', result = result)
-"""
-
-
-
-#print(search_sort("인하대"))
 
 #검색 리스트 제거 함수, num은 index 
 def swap_elements(lst, index1, index2):
     lst[index1], lst[index2] = lst[index2], lst[index1]
 
-#def delete_search_list(str, num):
+#def delete_search_list(str, num): (수정 필)
     sorted_list = search_sort(str)
     for x in range(len(sorted_list)):
       if sorted_list[x][0] == num :
@@ -123,11 +80,9 @@ def swap_elements(lst, index1, index2):
           break
     return sorted_list
 
-#print(delete_search_list("인하대", 5))
-
 
 # 다수 제거 함수, 제거 갯수 최대 10개로 설정 ->render_template, database
-#def multi_delete(str):
+#def multi_delete(str): (수정 필)
     sorted_list = search_sort(str)
     want_to_delete_list = []
     for i in range(10):
@@ -150,25 +105,6 @@ def swap_elements(lst, index1, index2):
 def carbon(num):
     carbon = num * 4
     print('약', carbon ,'g의 탄소배출을 막으셨어요!')
-
-
-# http protocol routing function
-#@app.route('/', methods = ['GET', 'POST'])
-#def index():
-#    if request.method == 'POST':
-#        keyword = request.form['keyword']
-#        if keyword:
-#            results = search_contents(keyword)
-#            return render_template('index.html', results=results, keyword=keyword)
-#        else:
-#            return "Please enter a keyword."
-
-#    return render_template('index.html')
-
-
-
-
-
 
 
 if __name__ =="__main__":
