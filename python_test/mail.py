@@ -3,9 +3,9 @@ import mysql.connector
 
 # 사용할 database 주소
 mydb = mysql.connector.connect(
-    host = "localhost", #192.168.56.1
-    user = "root",
-    passwd="thdtlgur123",
+    host = "localhost", #192.168.68.100
+    user = "newuser",
+    passwd="thdtlgur123!",
     database="e_mail_data"    
 )
 
