@@ -9,12 +9,13 @@
     <form method="get" action="http://localhost:8080/search">
       <ul>
         <p><input type="text" name="Content" /><br /></p>
+        <p>Enter Content:</p>
         <input type="submit" />
         {% for mail in mail_list %}
         <li>Sender: {{ mail[1] }}</li>
         <li>Content: {{ mail[3] }}</li>
         <br />
-        <p>Enter Content:</p>
+        
 
         {% endfor %}
       </ul>
